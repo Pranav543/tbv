@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: white;
+  /* background: rgb(2,0,36); */
+  /* background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.initiateBtn {
+  padding: 6px 1.5rem;
+  color: white;
+  border-radius: 10px;
+}
+
+.modal-content2 {
+  min-width: 800px;
+  max-width: 1000px;
+  width: 80%;
+  border-collapse: collapse;
+  color: black;
+  background: white;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+  /* background-image: linear-gradient(hsla(0, 0%, 100%, .03), hsla(0, 0%, 100%, .03)); */
+}
+.modal-content2 input {
+  background: transparent;
+  border: 1px solid #2d2d2d;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+.modal-content2 .inputParent {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 10px auto;
+}
+
+.modal-content2 .inputParent label {
+  text-align: left;
+}
+
+.approveBtn {
+  width: 100% !important;
+  background-color: #30cb83;
+  color: white;
+  padding: 10px 0;
+  border-radius: 10px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-dashboard {
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+.logoImage {
+  width: 35px;
+  height: 35px;
+}
+.logoText {
+  font-family: var(--font-dmsans);
+  color: black;
+  margin-left: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  /* text-transform: uppercase; */
+}

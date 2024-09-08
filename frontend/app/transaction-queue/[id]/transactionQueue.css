@@ -1,0 +1,51 @@
+.container-parent {
+  margin-top: 150px;
+}
+.reqheader {
+  margin: 0;
+  padding: 10px 0;
+  background-color: #30cb83;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-content2 .inputParent label {
+  text-align: left;
+  color: #12141e99;
+  font-size: 12px;
+}
+
+.modal-content2 input {
+  border: 1px solid #12141e99;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.go-back {
+  min-width: 800px;
+  max-width: 1000px;
+  width: 80%;
+  margin: 0 auto;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.go-back > svg {
+  fill: black;
+  width: 15px;
+}
+.go-back:hover {
+  text-decoration: underline;
+}

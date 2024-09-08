@@ -1,0 +1,181 @@
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999;
+}
+
+.popup-container {
+  /* border: 1px solid rgb(45, 45, 45); */
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  width: 40em;
+  margin: 30px 0;
+  /* height: fit-content; */
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.popup-card {
+  font-family: var(--font-dmsans);
+  position: relative;
+  /* padding: 20px; */
+  text-align: center;
+  background-color: #f4f4f4;
+}
+.closeIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.closeIcon svg {
+  fill: white;
+}
+.popup-card h2 {
+  color: #000;
+  font-family: var(--font-dmsans);
+  line-height: 100%;
+  word-break: break-all;
+  padding: 10px 20px;
+  margin-left: 20px;
+  font-size: 2rem;
+  color: #10bb35;
+  /* background-color: #dffe00; */
+}
+
+.popup-card p {
+  font-size: medium;
+  font-family: "IBM Plex Sans", sans-serif;
+  /* letter-spacing: -0.05em; */
+
+  font-size: larger;
+  text-align: center;
+  line-height: 180%;
+  margin: 30px auto;
+  word-break: break-word;
+}
+.popup-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.popup-overlay button {
+  width: 50%;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+}
+.popup-overlay button:hover {
+  transform: translateY(-4px);
+}
+.move-forward {
+  color: #000;
+  font-family: "Chakra Petch", sans-serif;
+  line-height: 100%;
+  word-break: break-all;
+  border: 1px solid rgb(45, 45, 45);
+  background-color: rgb(21, 22, 25);
+  padding: 20px 30px;
+  margin-left: 20px;
+  font-size: 1.2rem;
+  color: #dffe00;
+}
+.close-popup {
+  color: #000;
+  font-family: "Chakra Petch", sans-serif;
+  line-height: 100%;
+  word-break: break-all;
+  padding: 20px 30px;
+  margin-left: 20px;
+  font-size: 1.2rem;
+  border: 1px solid rgb(45, 45, 45);
+  background-color: #2575fc;
+  color: black;
+}
+
+.popup-container input,
+.inputDiv {
+  background: transparent;
+  border: 1px solid #2d2d2d;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.popup-container .inputParent {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 10px auto;
+}
+
+.popup-container .inputParent label {
+  text-align: left;
+  color: #12141e99;
+  font-size: 12px;
+}
+
+.sendReqBtn {
+  width: 100% !important;
+  color: white;
+  background-color: black;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sendReqBtn.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.8;
+}
+.inputParent input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  background-color: #30cb83;
+}
+
+.load-token {
+  color: #10bb35;
+  background-color: #10bb3514;
+  border-radius: 6px;
+  width: max-content !important;
+  margin-top: 8px;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.token-details {
+  border: 2px dashed #10bb35;
+  color: black;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.send-transaction {
+  background: black;
+  margin: 0;
+  text-align: center;
+  color: white;
+  padding: 20px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
