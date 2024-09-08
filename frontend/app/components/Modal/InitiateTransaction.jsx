@@ -104,7 +104,7 @@ const InitiateTransaction = ({ onClose }) => {
       setIsLoading(true);
       const client = createWalletClient({
         chain: {
-          id: 31, // BTTC Donau testnet chain ID
+          id: 31, 
           rpcUrls: {
             public: "https://public-node.testnet.rsk.co/",
             websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)

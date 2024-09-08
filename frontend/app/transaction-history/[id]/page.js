@@ -13,16 +13,16 @@ import { formatUnits } from "viem";
 
 const publicClient = createPublicClient({
   chain: {
-    id: 31, // BTTC Donau testnet chain ID
+    id: 31, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", // BTTC Donau testnet RPC URL
+      public: "https://public-node.testnet.rsk.co/", 
     },
   },
   transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
 });
 const walletClient = createWalletClient({
   chain: {
-    id: 31, // BTTC Donau testnet chain ID
+    id: 31, 
     rpcUrls: {
       public: "https://public-node.testnet.rsk.co/",
       websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)

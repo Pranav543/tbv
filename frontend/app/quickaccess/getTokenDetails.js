@@ -3,9 +3,9 @@ import erc20Abi from "./ERC20ABI.json";
 import { getContract } from "viem";
 const publicClient = createPublicClient({
   chain: {
-    id: 31, // BTTC Donau testnet chain ID
+    id: 31, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", // BTTC Donau testnet RPC URL
+      public: "https://public-node.testnet.rsk.co/", 
     },
   },
   transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function

@@ -28,7 +28,7 @@ import { useEffect } from "react";
 
 const { wallets } = getDefaultWallets();
 
-const bittorrentchainTestnet = {
+const rskchainTestnet = {
   id: 31,
   name: "RootStock Testnet",
   nativeCurrency: {
@@ -56,7 +56,7 @@ const config = getDefaultConfig({
     },
   ],
   chains: [
-    bittorrentchainTestnet,
+    rskchainTestnet,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
   ],
   ssr: true,
