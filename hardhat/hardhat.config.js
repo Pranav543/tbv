@@ -4,6 +4,7 @@ require("dotenv/config");
 
 // Environment variable setup
 const RSK_TESTNET_RPC_URL = process.env.RSK_TESTNET_RPC_URL;
+const HEDERA_TESTNET_RPC_URL = process.env.HEDERA_TESTNET_RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -23,5 +24,12 @@ module.exports = {
       gasPrice: 60000000,
       accounts: [PRIVATE_KEY],
     },
+    
+    hederaTestnet: {
+      url: HEDERA_TESTNET_RPC_URL,
+      chainId: 296,
+      gasPrice: 60000000,
+      accounts: [PRIVATE_KEY],
+    }
   },
 };
