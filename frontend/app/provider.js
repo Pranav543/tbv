@@ -13,14 +13,7 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  polygon,
   sepolia,
-  rootstockTestnet,
-  hederaTestnet,
 } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

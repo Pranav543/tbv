@@ -25,6 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import SingleTranscationAccordianExpanded from "../SingleTranscationAccordianExpanded";
 import { approveToken } from "@/app/quickaccess/ApproveTokens";
+import { rskNetworkConfig, hederaNetworkConfig } from "@/app/utils/constants";
 
 const CustomAccordion = styled(Accordion)({
   margin: "10px 0",
@@ -80,23 +81,48 @@ const CustomGridItem = styled(Grid)({
   justifyContent: "center",
   alignItems: "center",
 });
-const publicClient = createPublicClient({
+const publicRSKClient = createPublicClient({
   chain: {
-    id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
+    id: rskNetworkConfig.id,
     rpcUrls: {
-      public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, 
+      public: rskNetworkConfig.rpcUrl,
     },
   },
-  transport: http(chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
+  transport: http(rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
 });
-let walletClient;
+
+let walletRSKClient;
 if (typeof window !== "undefined" && window.ethereum) {
-  walletClient = createWalletClient({
+  walletRSKClient = createWalletClient({
     chain: {
-      id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
+      id: rskNetworkConfig.id,
       rpcUrls: {
-        public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl,
-        websocket: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
+        public: rskNetworkConfig.rpcUrl,
+        websocket: rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
+      },
+    },
+    transport: custom(window.ethereum),
+  });
+}
+
+const publicHederaClient = createPublicClient({
+  chain: {
+    id: hederaNetworkConfig.id,
+    rpcUrls: {
+      public: hederaNetworkConfig.rpcUrl,
+    },
+  },
+  transport: http(hederaNetworkConfig.rpcUrl), // Passing RPC URL to http function
+});
+
+let walletHederaClient;
+if (typeof window !== "undefined" && window.ethereum) {
+  walletHederaClient = createWalletClient({
+    chain: {
+      id: hederaNetworkConfig.id,
+      rpcUrls: {
+        public: hederaNetworkConfig.rpcUrl,
+        websocket: hederaNetworkConfig.rpcUrl, // WebSocket URL (optional)
       },
     },
     transport: custom(window.ethereum),
@@ -107,6 +133,9 @@ const TransactionAccordion = ({ transactions }) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isRejectedBtn, setIsRejectedBtn] = useState(-1);
   const { address, chain } = useAccount();
+
+  let publicClient = chain.id == 296 ? publicHederaClient : publicRSKClient;
+  let walletClient = chain.id == 296 ? walletHederaClient : walletRSKClient;
 
   const contractAddress = chain.id == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
 
@@ -255,7 +284,7 @@ const TransactionAccordion = ({ transactions }) => {
         transaction.tokenName,
       ];
 
-      console.log(TransactionDetails);
+      console.log("TransactionDetails: ", TransactionDetails);
 
       let functionCalled = "";
       if (transaction.tokenAddress === "") {
@@ -271,6 +300,7 @@ const TransactionAccordion = ({ transactions }) => {
         console.log(approve);
       }
 
+      console.log("here 1: ", publicClient)
       const { request } = await publicClient.simulateContract({
         account: address,
         address: contractAddress,
@@ -286,6 +316,9 @@ const TransactionAccordion = ({ transactions }) => {
           : {}),
         gasLimit: 3000000, // Specify the gas limit here
       });
+
+      console.log("here 2")
+
 
       const currentDate = new Date();
       const execute = await walletClient.writeContract(request);
@@ -303,7 +336,7 @@ const TransactionAccordion = ({ transactions }) => {
           transactionHash: execute,
         };
 
-        console.log(userData);
+        console.log("userData: ", userData);
         try {
           console.log("entered into try block");
           let result = await fetch(
@@ -330,7 +363,7 @@ const TransactionAccordion = ({ transactions }) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      toast.error("Execution failed");
+      toast.error("Execution failed 1");
       console.log(error);
     } finally {
       setIsLoading(false);

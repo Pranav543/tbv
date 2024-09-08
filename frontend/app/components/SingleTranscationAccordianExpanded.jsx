@@ -17,7 +17,7 @@ function SingleTranscationAccordianExpanded({
 }) {
   const { address, chain } = useAccount();
 
-  const explorerUrl = chain.id == 296 ? "https://hashscan.io/testnet/transaction" : "https://explorer.testnet.rsk.co/tx"
+  const explorerUrl = transaction.tokenName == "HBAR" ? "https://hashscan.io/testnet/transaction" : "https://explorer.testnet.rsk.co/tx"
 
   return (
     <>

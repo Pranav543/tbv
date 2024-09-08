@@ -71,7 +71,6 @@ export const approveToken = async (
 
   let contractAddress = chainId == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
 
-
   // If not enough allowance, proceed to approve
   const { request } = await publicClient.simulateContract({
     account: address,
@@ -80,6 +79,7 @@ export const approveToken = async (
     functionName: "approve",
     args: [contractAddress, amount],
   });
+
 
   const execute = await walletClient.writeContract(request);
   console.log(execute);

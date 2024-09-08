@@ -151,7 +151,7 @@ export default function TransactionRequestDetails({ params }) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      toast.error("Execution failed");
+      toast.error("Execution failed 3");
       console.log(error);
     }
   };

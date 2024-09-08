@@ -17,8 +17,6 @@ const concert_One = Concert_One({
 export default function Header() {
   const { address, isConnected, chain } = useAccount();
 
-  console.log("current chain is: ", chain)
-
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
