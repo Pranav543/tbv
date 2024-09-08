@@ -15,7 +15,9 @@ const concert_One = Concert_One({
   display: "swap",
 });
 export default function Header() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
+
+  console.log("current chain is: ", chain)
 
   const [scrolled, setScrolled] = useState(false);
 

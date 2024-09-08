@@ -11,22 +11,45 @@ import { parseUnits, parseEther } from "viem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { formatUnits } from "viem";
+import { rskNetworkConfig, hederaNetworkConfig } from "@/app/utils/constants";
 
-const publicClient = createPublicClient({
+const publicRSKClient = createPublicClient({
   chain: {
-    id: 31, 
+    id: rskNetworkConfig.id, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", 
+      public: rskNetworkConfig.rpcUrl, 
     },
   },
-  transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
+  transport: http(rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
 });
-const walletClient = createWalletClient({
+
+const publicHederaClient = createPublicClient({
   chain: {
-    id: 31, 
+    id: hederaNetworkConfig.id, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/",
-      websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+      public: hederaNetworkConfig.rpcUrl, 
+    },
+  },
+  transport: http(hederaNetworkConfig.rpcUrl), // Passing RPC URL to http function
+});
+
+const walletRSKClient = createWalletClient({
+  chain: {
+    id: rskNetworkConfig.id, 
+    rpcUrls: {
+      public: rskNetworkConfig.rpcUrl,
+      websocket: rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
+    },
+  },
+  transport: custom(window ? window.ethereum : ""),
+});
+
+const walletHederaClient = createWalletClient({
+  chain: {
+    id: hederaNetworkConfig.id, 
+    rpcUrls: {
+      public: hederaNetworkConfig.rpcUrl,
+      websocket: hederaNetworkConfig.rpcUrl, // WebSocket URL (optional)
     },
   },
   transport: custom(window ? window.ethereum : ""),
@@ -34,7 +57,11 @@ const walletClient = createWalletClient({
 
 export default function TransactionRequestDetails({ params }) {
   const [transaction, setTransaction] = useState();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
+  let publicClient = chain.id == 296 ? publicHederaClient : publicRSKClient;
+  let walletClient = chain.id == 296 ? walletHederaClient : walletRSKClient;
+
+  let contractAddress = chain.id == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
 
   const [buttonActive, setButtonActive] = useState(true);
 
@@ -51,7 +78,7 @@ export default function TransactionRequestDetails({ params }) {
         transaction.amount,
         transaction.tokenAddress !== ""
           ? transaction.tokenAddress
-          : "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+          : contractAddress,
         transaction.tokenName,
       ];
 
@@ -65,14 +92,15 @@ export default function TransactionRequestDetails({ params }) {
         let approve = await approveToken(
           transaction.amount,
           transaction.tokenAddress,
-          address
+          address,
+          chain.id
         );
         console.log(approve);
       }
 
       const { request } = await publicClient.simulateContract({
         account: address,
-        address: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+        address: contractAddress,
         abi: TBVProtocolABI,
         functionName: functionCalled,
         args: [

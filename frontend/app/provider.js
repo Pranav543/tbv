@@ -19,7 +19,8 @@ import {
   optimism,
   polygon,
   sepolia,
-  bitTorrentTestnet,
+  rootstockTestnet,
+  hederaTestnet,
 } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ import { useEffect } from "react";
 
 const { wallets } = getDefaultWallets();
 
-const rskchainTestnet = {
+const rootstockTestnet = {
   id: 31,
   name: "RootStock Testnet",
   nativeCurrency: {
@@ -45,6 +46,23 @@ const rskchainTestnet = {
   testnet: true,
 };
 
+const hederaTestnet = {
+  id: 296,
+  name: "Hedera Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Hedera Testnet",
+    symbol: "HBAR",
+  },
+  rpcUrls: {
+    default: { http: ["https://testnet.hashio.io/api/"] },
+  },
+  blockExplorers: {
+    default: { name: "hedera tesnet scan", url: "https://hashscan.io/testnet/" },
+  },
+  testnet: true,
+};
+
 const config = getDefaultConfig({
   appName: "TBV Protocol",
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
@@ -56,7 +74,8 @@ const config = getDefaultConfig({
     },
   ],
   chains: [
-    rskchainTestnet,
+    rootstockTestnet,
+    hederaTestnet,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia] : []),
   ],
   ssr: true,

@@ -82,21 +82,21 @@ const CustomGridItem = styled(Grid)({
 });
 const publicClient = createPublicClient({
   chain: {
-    id: 31, 
+    id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", 
+      public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, 
     },
   },
-  transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
+  transport: http(chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
 });
 let walletClient;
 if (typeof window !== "undefined" && window.ethereum) {
   walletClient = createWalletClient({
     chain: {
-      id: 31, 
+      id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
       rpcUrls: {
-        public: "https://public-node.testnet.rsk.co/",
-        websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+        public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl,
+        websocket: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
       },
     },
     transport: custom(window.ethereum),
@@ -106,7 +106,9 @@ const TransactionAccordion = ({ transactions }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isRejectedBtn, setIsRejectedBtn] = useState(-1);
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
+
+  const contractAddress = chain.id == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
 
   const signTransaction = async (transaction) => {
     console.log(transaction);
@@ -114,10 +116,10 @@ const TransactionAccordion = ({ transactions }) => {
       setIsLoading(true);
       const client = createWalletClient({
         chain: {
-          id: 31, 
+          id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
           rpcUrls: {
-            public: "https://public-node.testnet.rsk.co/",
-            websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+            public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl,
+            websocket: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
           },
         },
         transport: custom(window.ethereum),
@@ -129,8 +131,8 @@ const TransactionAccordion = ({ transactions }) => {
         domain: {
           name: "TBVProtocol",
           version: "1",
-          chainId: "31",
-          verifyingContract: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+          chainId: chain.id == 296 ? "296" : "31",
+          verifyingContract: contractAddress,
         },
         types: {
           EIP712Domain: [
@@ -249,7 +251,7 @@ const TransactionAccordion = ({ transactions }) => {
         transaction.amount,
         transaction.tokenAddress !== ""
           ? transaction.tokenAddress
-          : "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+          : contractAddress,
         transaction.tokenName,
       ];
 
@@ -263,14 +265,15 @@ const TransactionAccordion = ({ transactions }) => {
         let approve = await approveToken(
           transaction.amount,
           transaction.tokenAddress,
-          address
+          address,
+          chain.id
         );
         console.log(approve);
       }
 
       const { request } = await publicClient.simulateContract({
         account: address,
-        address: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+        address: contractAddress,
         abi: TBVProtocolABI,
         functionName: functionCalled,
         args: [

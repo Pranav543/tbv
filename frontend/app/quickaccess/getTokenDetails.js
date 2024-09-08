@@ -1,17 +1,29 @@
 import { createPublicClient, http, pubKeyToAddress } from "viem";
 import erc20Abi from "./ERC20ABI.json";
 import { getContract } from "viem";
-const publicClient = createPublicClient({
+import { rskNetworkConfig, hederaNetworkConfig } from "../utils/constants";
+const publicRSKClient = createPublicClient({
   chain: {
-    id: 31, 
+    id: rskNetworkConfig.id, 
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", 
+      public: rskNetworkConfig.rpcUrl, 
     },
   },
-  transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
+  transport: http(rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
 });
 
-export async function getTokenDetails(TokenAddress) {
+const publicHederaClient = createPublicClient({
+  chain: {
+    id: hederaNetworkConfig.id, 
+    rpcUrls: {
+      public: hederaNetworkConfig.rpcUrl, 
+    },
+  },
+  transport: http(hederaNetworkConfig.rpcUrl), // Passing RPC URL to http function
+});
+
+export async function getTokenDetails(TokenAddress, chainId) {
+  let publicClient = chainId == 296 ? publicHederaClient : publicRSKClient;
   try {
     const contract = getContract({
       address: TokenAddress,

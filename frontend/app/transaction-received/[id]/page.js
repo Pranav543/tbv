@@ -3,37 +3,19 @@
 import Header from "@/app/components/header/Header";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { createPublicClient, http, pubKeyToAddress } from "viem";
 import { createWalletClient, custom } from "viem";
-import { approveToken } from "@/app/quickaccess/ApproveTokens";
 import { parseUnits, parseEther } from "viem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { formatUnits } from "viem";
+import { rskNetworkConfig, hederaNetworkConfig } from "@/app/utils/constants";
 
-const publicClient = createPublicClient({
-  chain: {
-    id: 31,
-    rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/",
-    },
-  },
-  transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
-});
-const walletClient = createWalletClient({
-  chain: {
-    id: 31, 
-    rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/",
-      websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
-    },
-  },
-  transport: custom(window ? window.ethereum : ""),
-});
 
 export default function TransactionRequestDetails({ params }) {
   const [transaction, setTransaction] = useState();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
+
+  let contractAddress = chain.id == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
 
   const [buttonActive, setButtonActive] = useState(true);
 
@@ -45,10 +27,10 @@ export default function TransactionRequestDetails({ params }) {
       setIsLoading(true);
       const client = createWalletClient({
         chain: {
-          id: 31, 
+          id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
           rpcUrls: {
-            public: "https://public-node.testnet.rsk.co/",
-            websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+            public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl,
+            websocket: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
           },
         },
         transport: custom(window ? window.ethereum : ""),
@@ -60,8 +42,8 @@ export default function TransactionRequestDetails({ params }) {
         domain: {
           name: "TBVProtocol",
           version: "1",
-          chainId: "31",
-          verifyingContract: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+          chainId: chain.id == 296 ? "296" : "31",
+          verifyingContract: contractAddress,
         },
         types: {
           EIP712Domain: [

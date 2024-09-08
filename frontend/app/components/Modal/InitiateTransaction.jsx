@@ -11,9 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { parseUnits, parseEther } from "viem";
 import { formSchemaLoadToken, formSchemaTransaction } from "./schema";
 import LoadingSpinner from "./LoadingSpinner";
+import {rskNetworkConfig, hederaNetworkConfig} from "./../../utils/constants"
 
 const InitiateTransaction = ({ onClose }) => {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingToken, setisLoadingToken] = useState(false);
   const [errorDisplay, setErrorDisplay] = useState(false);
@@ -33,6 +34,8 @@ const InitiateTransaction = ({ onClose }) => {
     balance: "",
   };
 
+  const chainCurrency = chain.id == 296 ? hederaNetworkConfig.currency : rskNetworkConfig.currency
+
   const [tokenDetails, setTokenDetails] = useState(defaultTokenDetails);
 
   // Handle onchange event for input fields and update the transaction state
@@ -51,8 +54,8 @@ const InitiateTransaction = ({ onClose }) => {
       formSchemaLoadToken.parse(formData);
       setisLoadingToken(true);
       console.log(transaction.token, address);
-      console.log(await getTokenDetails(transaction.token));
-      const getToken = await getTokenDetails(transaction.token);
+      console.log(await getTokenDetails(transaction.token, chain.id));
+      const getToken = await getTokenDetails(transaction.token, chain.id);
       console.log(getToken);
       if (getToken !== null) {
         setTokenDetails(getToken);
@@ -104,10 +107,10 @@ const InitiateTransaction = ({ onClose }) => {
       setIsLoading(true);
       const client = createWalletClient({
         chain: {
-          id: 31, 
+          id: chain.id == 296 ? hederaNetworkConfig.id : rskNetworkConfig.id, 
           rpcUrls: {
-            public: "https://public-node.testnet.rsk.co/",
-            websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+            public: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl,
+            websocket: chain.id == 296 ? hederaNetworkConfig.rpcUrl : rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
           },
         },
         transport: custom(window ? window.ethereum : ""),
@@ -131,8 +134,8 @@ const InitiateTransaction = ({ onClose }) => {
         domain: {
           name: "TBVProtocol",
           version: "1",
-          chainId: "31",
-          verifyingContract: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
+          chainId: chain.id == 296 ? "296" : "31",
+          verifyingContract: chain.id == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress,
         },
         types: {
           EIP712Domain: [
@@ -155,7 +158,7 @@ const InitiateTransaction = ({ onClose }) => {
           sender: address,
           receiver: transaction.receiver,
           amount: amount,
-          tokenName: tokenDetails.symbol !== "" ? tokenDetails.symbol : "tRBTC",
+          tokenName: tokenDetails.symbol !== "" ? tokenDetails.symbol : chainCurrency,
         },
       });
       const currentDate = new Date();
@@ -169,7 +172,7 @@ const InitiateTransaction = ({ onClose }) => {
           senderSignature: signature,
           receiverSignature: "",
           status: "inititated",
-          tokenName: tokenDetails.symbol !== "" ? tokenDetails.symbol : "tRBTC",
+          tokenName: tokenDetails.symbol !== "" ? tokenDetails.symbol : chainCurrency,
           initiateDate: currentDate,
           decimals: tokenDetails.symbol !== "" ? tokenDetails.decimals : 18,
           nonce: nonce,

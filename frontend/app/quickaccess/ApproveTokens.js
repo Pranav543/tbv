@@ -2,33 +2,66 @@
 import { createPublicClient, http, pubKeyToAddress } from "viem";
 import erc20Abi from "./ERC20ABI.json";
 import { createWalletClient, custom } from "viem";
+import { rskNetworkConfig, hederaNetworkConfig } from "../utils/constants";
 
-const publicClient = createPublicClient({
+const publicRSKClient = createPublicClient({
   chain: {
-    id: 31, 
+    id: rskNetworkConfig.id,
     rpcUrls: {
-      public: "https://public-node.testnet.rsk.co/", 
+      public: rskNetworkConfig.rpcUrl,
     },
   },
-  transport: http("https://public-node.testnet.rsk.co/"), // Passing RPC URL to http function
+  transport: http(rskNetworkConfig.rpcUrl), // Passing RPC URL to http function
 });
 
-let walletClient;
+let walletRSKClient;
 if (typeof window !== "undefined" && window.ethereum) {
-  walletClient = createWalletClient({
+  walletRSKClient = createWalletClient({
     chain: {
-      id: 31, 
+      id: rskNetworkConfig.id,
       rpcUrls: {
-        public: "https://public-node.testnet.rsk.co/",
-        websocket: "https://public-node.testnet.rsk.co/", // WebSocket URL (optional)
+        public: rskNetworkConfig.rpcUrl,
+        websocket: rskNetworkConfig.rpcUrl, // WebSocket URL (optional)
       },
     },
     transport: custom(window.ethereum),
   });
 }
-export const approveToken = async (amount, tokenContractAddress, address) => {
+
+const publicHederaClient = createPublicClient({
+  chain: {
+    id: hederaNetworkConfig.id,
+    rpcUrls: {
+      public: hederaNetworkConfig.rpcUrl,
+    },
+  },
+  transport: http(hederaNetworkConfig.rpcUrl), // Passing RPC URL to http function
+});
+
+let walletHederaClient;
+if (typeof window !== "undefined" && window.ethereum) {
+  walletHederaClient = createWalletClient({
+    chain: {
+      id: hederaNetworkConfig.id,
+      rpcUrls: {
+        public: hederaNetworkConfig.rpcUrl,
+        websocket: hederaNetworkConfig.rpcUrl, // WebSocket URL (optional)
+      },
+    },
+    transport: custom(window.ethereum),
+  });
+}
+
+export const approveToken = async (
+  amount,
+  tokenContractAddress,
+  address,
+  chainId
+) => {
+  let publicClient = chainId == 296 ? publicHederaClient : publicRSKClient;
+  let walletClient = chainId == 296 ? walletHederaClient : walletRSKClient;
   // First, read the current allowance
-  const allowance = await readAllowance(tokenContractAddress, address);
+  const allowance = await readAllowance(tokenContractAddress, address, chainId);
   console.log(allowance);
   // Check if the current allowance is sufficient
   if (allowance >= amount) {
@@ -36,13 +69,16 @@ export const approveToken = async (amount, tokenContractAddress, address) => {
     return { success: true, message: `Already approved ${amount} tokens` };
   }
 
+  let contractAddress = chainId == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
+
+
   // If not enough allowance, proceed to approve
   const { request } = await publicClient.simulateContract({
     account: address,
     address: tokenContractAddress,
     abi: erc20Abi.abi,
     functionName: "approve",
-    args: ["0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36", amount],
+    args: [contractAddress, amount],
   });
 
   const execute = await walletClient.writeContract(request);
@@ -63,13 +99,15 @@ export const approveToken = async (amount, tokenContractAddress, address) => {
 };
 
 // Helper function to read allowance
-const readAllowance = async (tokenContractAddress, ownerAddress) => {
+const readAllowance = async (tokenContractAddress, ownerAddress, chainId) => {
+  let publicClient = chainId == 296 ? publicHederaClient : publicRSKClient;
+  let contractAddress = chainId == 296 ? hederaNetworkConfig.contractAddress : rskNetworkConfig.contractAddress
   const { result } = await publicClient.simulateContract({
     account: ownerAddress,
     address: tokenContractAddress,
     abi: erc20Abi.abi,
     functionName: "allowance",
-    args: [ownerAddress, "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36"],
+    args: [ownerAddress, contractAddress],
   });
 
   return result;

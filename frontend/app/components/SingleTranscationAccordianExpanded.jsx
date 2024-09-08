@@ -15,7 +15,9 @@ function SingleTranscationAccordianExpanded({
   isRejectedBtn,
   handleActionButtonClick,
 }) {
-  const { address } = useAccount();
+  const { address, chain } = useAccount();
+
+  const explorerUrl = chain.id == 296 ? "https://hashscan.io/testnet/transaction" : "https://explorer.testnet.rsk.co/tx"
 
   return (
     <>
@@ -74,7 +76,7 @@ function SingleTranscationAccordianExpanded({
                 <div className="value">
                   {transaction.transactionHash ? (
                     <a
-                      href={`https://testnet.bttcscan.com/tx/${transaction.transactionHash}`}
+                      href={`${explorerUrl}/${transaction.transactionHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
