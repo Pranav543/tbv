@@ -46,12 +46,12 @@ export default function Header() {
               <Image
                 width={35}
                 height={35}
-                src="/handshake.png"
+                src="/tbv.png"
                 className="logoImage "
                 alt=""
               />{" "}
               <span className="logoText md:text-1rem ld:text-[1.2rem]">
-                Handshake
+                TBV Protocol
               </span>
             </div>
           </Link>

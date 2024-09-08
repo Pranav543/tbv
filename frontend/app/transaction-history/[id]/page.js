@@ -4,7 +4,6 @@ import Header from "@/app/components/header/Header";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { createPublicClient, http, pubKeyToAddress } from "viem";
-import handshakeABI from "./Handshake.json";
 import { createWalletClient, custom } from "viem";
 import { approveToken } from "@/app/quickaccess/ApproveTokens";
 import { parseUnits, parseEther } from "viem";

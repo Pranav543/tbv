@@ -34,7 +34,7 @@ export default function SectionTwo() {
     {
       name: "Building Trust in DeFi",
       description:
-        "By ensuring mutual verification and consent, HandShake Protocol fosters a more trustworthy and secure ecosystem for digital transactions, promoting wider adoption of DeFi services.",
+        "By ensuring mutual verification and consent, TBV Protocol fosters a more trustworthy and secure ecosystem for digital transactions, promoting wider adoption of DeFi services.",
       icon: UserIcon,
     },
   ];
@@ -47,13 +47,13 @@ export default function SectionTwo() {
             <div className="lg:pr-8 lg:pt-4">
               <div className="lg:max-w-lg">
                 <h2 className="text-base font-semibold leading-7 text-indigo-600">
-                  Trasfer With HandShake
+                  Trasfer With TBV Protocol
                 </h2>
                 <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                   A better workflow
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                  The HandShake Protocol offers several key benefits that
+                  The TBV Protocol offers several key benefits that
                   enhance the security, flexibility, and reliability of token
                   transfers in the DeFi space.
                 </p>

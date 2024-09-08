@@ -46,7 +46,7 @@ const bittorrentchainTestnet = {
 };
 
 const config = getDefaultConfig({
-  appName: "Handshake",
+  appName: "TBV Protocol",
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
   wallets: [
     ...wallets,

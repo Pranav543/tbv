@@ -9,7 +9,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { Grid } from "@mui/material";
 
-import handshakeABI from "../../transaction-queue/[id]/Handshake.json";
+import TBVProtocolABI from "../../transaction-queue/[id]/TBVProtocol.json";
+
 import {
   createPublicClient,
   createWalletClient,
@@ -270,7 +271,7 @@ const TransactionAccordion = ({ transactions }) => {
       const { request } = await publicClient.simulateContract({
         account: address,
         address: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
-        abi: handshakeABI,
+        abi: TBVProtocolABI,
         functionName: functionCalled,
         args: [
           transaction.senderSignature,

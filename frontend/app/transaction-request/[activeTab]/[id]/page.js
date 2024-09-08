@@ -4,7 +4,7 @@ import Header from "@/app/components/header/Header";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { createPublicClient, http, pubKeyToAddress } from "viem";
-import handshakeABI from "./Handshake.json";
+import TBVProtocolABI from "./TBVProtocol.json";
 import { createWalletClient, custom } from "viem";
 import { approveToken } from "@/app/quickaccess/ApproveTokens";
 import { parseUnits, parseEther } from "viem";
@@ -74,7 +74,7 @@ export default function TransactionRequestDetails({ params }) {
       const { request } = await publicClient.simulateContract({
         account: address,
         address: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",
-        abi: handshakeABI,
+        abi: TBVProtocolABI,
         functionName: functionCalled,
         args: [
           transaction.senderSignature,
@@ -142,7 +142,7 @@ export default function TransactionRequestDetails({ params }) {
       const signature = await client.signTypedData({
         account: address,
         domain: {
-          name: "HandshakeTokenTransfer",
+          name: "TBVProtocol",
           version: "1",
           chainId: "31",
           verifyingContract: "0x8B91bc1451cE991C3CE01dd24944FcEcbecAEE36",

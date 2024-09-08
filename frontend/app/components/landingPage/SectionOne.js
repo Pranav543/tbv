@@ -23,15 +23,15 @@ export default function SectionOne() {
         >
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5 flex items-center">
-              <span className="sr-only">HandShake Protocol</span>
+              <span className="sr-only">TBV Protocol</span>
               <Image
                 className="h-8 w-auto"
-                src="/handshake.png"
+                src="/tbv.png"
                 alt="logo"
                 width={35}
                 height={35}
               />
-              <span className="logoText">Handshake</span>
+              <span className="logoText">TBV Protocol</span>
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -55,10 +55,10 @@ export default function SectionOne() {
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">HandShake Protocol</span>
+                <span className="sr-only">TBV Protocol</span>
                 <Image
                   className="h-8 w-auto"
-                  src="/img/handshake_logo.png"
+                  src="/img/tbv_logo.png"
                   alt="logo"
                   width={140}
                   height={50}
@@ -94,10 +94,10 @@ export default function SectionOne() {
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              HandShake Protocol: Enhancing Token Transfers
+              TBV Protocol: Enhancing Token Transfers
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              The HandShake Protocol offers a secure and reliable way of token
+              The TBV Protocol offers a secure and reliable way of token
               transfers in the DeFi space, ensuring mutual consent and enhancing
               transaction security.
             </p>
