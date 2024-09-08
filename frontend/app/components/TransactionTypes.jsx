@@ -90,7 +90,7 @@ const TransactionTypes = () => {
 
   return (
     <>
-      <div>
+      <div style={{marginTop: "100px"}}>
         <div className="container-parent">
           <div className="flex items-center justify-between pb-[24px] px-[24px]">
             <h1 className="reqheader2">Transaction Requests</h1>
